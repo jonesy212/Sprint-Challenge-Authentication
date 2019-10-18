@@ -12,7 +12,7 @@ describe('Auth model'), () => {
     })
 
 
-    describe('insert', () => {
+    describe('insert',  () => {
         it('should add a user to database', async () => {
             let user = await Users.insert({username:'Michael'})
             expect(user.username).toBe('Michael')

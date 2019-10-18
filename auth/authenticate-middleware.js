@@ -5,7 +5,7 @@
 
 const bcrypt = require('bcryptjs');
 
-const Users = require('../users/users-router');
+const Users = require('./auth-router');
 
 //implement the protected middleware that will check for username and password
 // in the headers and if valid, provide access to the endpoint
@@ -15,9 +15,9 @@ const Users = require('../users/users-router');
 
 module.exports = (req, res, next) =>{
 
-    const {username, password, authenticated} = req.headers;
+    const {authenticated} = req.session;
 
-    if(username && password ){
+    if(authenticated){
         Users.findBy({username})
         .first()
         .then(user => {
@@ -32,10 +32,5 @@ module.exports = (req, res, next) =>{
         });
     } else {
         res.status(400).json({message: 'Please provide credentials'});
-    }
-  if(authenticated){
-    return next();
-  } else{
-    res.redirect('/')
-  }
+    } 
 }
